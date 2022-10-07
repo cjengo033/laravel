@@ -58,7 +58,7 @@ class StudentController extends Controller
         return redirect('/');
     }
 }
-
+ //Testing 
  // $data = Students::all();
  // $data1 = Students::where("age", ">", 20)->orderBy('first_name', 'asc')->get();
  // dd($data);
