@@ -15,7 +15,7 @@ class TodoController extends Controller
 
     public function show(Request $request) {   
     $users = DB::table('students')->get();   
-        return array($users);
+        return $users;
     }
 
     public function test($id) {
