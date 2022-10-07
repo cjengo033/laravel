@@ -10,7 +10,6 @@ use Illuminate\Validation\Rule;
 class UsersController extends Controller
 {
     public function login() {
-        // //cancer
         return ("Working");
     }
 
