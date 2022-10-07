@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 class UsersController extends Controller
 {
     public function login() {
-        //
+        // //cancer
         return ("Working");
     }
 
@@ -18,7 +18,7 @@ class UsersController extends Controller
         $data = $request->validate([
             "name" => ['required', 'min:4'],
             "password" => ['required', 'min:4'],
-            "email" => ['required', 'email', Rule::unique('students', 'email')]
+            "email" => ['required', 'email', Rule::unique('students', 'email')],
         ]);
 
         if($data) {
