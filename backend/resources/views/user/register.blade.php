@@ -1,5 +1,6 @@
 @include('partial.header')
 
+
 <main class="bg-light w-0.5 shadow-sm p-3 mb-5 bg-white rounded m-5">
     <section>
         <h3>Register</h3>
