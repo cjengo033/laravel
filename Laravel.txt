@@ -32,3 +32,5 @@ What to learn?
 *Create pagination.
 *Create content management operation.
 *Create gallery management task.
+
+//fix indent shift + alt + f
