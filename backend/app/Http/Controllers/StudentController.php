@@ -59,9 +59,6 @@ class StudentController extends Controller
     }
 }
 
-//testing
-//testing naten
-
  // $data = Students::all();
  // $data1 = Students::where("age", ">", 20)->orderBy('first_name', 'asc')->get();
  // dd($data);
