@@ -7,8 +7,25 @@ const Blogs = () => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState();
+  const [name, setName] = useState();
+  const [age, setAge] = useState();
+  const [email, setEmail] = useState();
 
   console.log(items);
+
+  const handleSubmit = () => {
+    const user = [
+      {
+        "name": name,
+        "age" : age,
+        "email": email
+      }
+    ] 
+
+    console.log(user);
+  }
+
+
 
   // Note: the empty deps array [] means
   // this useEffect will run once
@@ -65,22 +82,53 @@ const Blogs = () => {
                     <a href={`/blogs/${item.id}`} className="btn btn-warning">Update</a> &nbsp;
                     <a href={`/blogs/${item.id}`} className="btn btn-danger">Delete</a>
                   </div>
-                
+
                 </th>
 
               </tr>
             ))}
 
-
-
-
-
-
-
           </tbody>
         </table>
 
+        <div className="shadow-sm p-5 m-10 bg-white rounded">
+          <form onSubmit={handleSubmit()}>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Full name</label>
+              <input type="email"
+                value={setName}
+                class="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Enter email" />
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
 
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Age</label>
+              <input type="email"
+                value={setAge}
+                class="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Enter email" />
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+
+            <div class="form-group">
+              <label >Email address</label>
+              <input type="email"
+                
+                onChange={setEmail}
+                class="form-control"
+                id="exampleInputEmail1"
+                placeholder="Enter email" />
+            </div>
+
+            <button className="btn btn-primary">Submit Contact</button>
+          </form>
+        </div>
 
       </>
 
