@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Students = () => {
     const [error, setError] = useState(null);
@@ -33,7 +34,9 @@ const Students = () => {
     if (error) {
         return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
-        return <div>Loading...</div>;
+        return <div className="spinner-border justify-content-center" role="status">
+                 <span class="sr-only">Loading...</span>
+               </div>;
     } else {
 
         return (
@@ -46,24 +49,27 @@ const Students = () => {
                             <th scope="col">Full Name</th>
                             <th scope="col">Age</th>
                             <th scope="col">Email</th>
+                            <th scope="col">View</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {items.map(item => (
+                        {items.map(item => (
                             <tr key={item.id}>
                                 <th>{item.id}</th>
-                                <th>{item.first_name + " " +  item.last_name}</th>
+                                <th>{item.first_name + " " + item.last_name}</th>
                                 <th>{item.age}</th>
                                 <th>{item.email}</th>
+                                <th><FontAwesomeIcon icon="fa-solid fa-trash" /><a href={`/blogs/${item.id}`} >Test</a></th>
+                                
                             </tr>
-                           ))}
-                        
-                    
-                               
-                     
-                        
+                        ))}
 
-                        
+
+
+
+
+
+
                     </tbody>
                 </table>
 
