@@ -107,4 +107,17 @@ class BlogController extends Controller
 
         return response($response, 201);
      }
+
+     public function testToken(){
+        return "Working api token";
+     }
+
+     public function logout(Request $request){
+
+        $request->user()->currentAccessToken()->delete();
+
+        return [
+            'message'=>'Logged out'
+        ];
+    }
 }
