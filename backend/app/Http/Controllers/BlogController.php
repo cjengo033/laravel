@@ -89,4 +89,22 @@ class BlogController extends Controller
         return "No Data has been found";
        }
     }
+
+    public function register(Request $request) {
+        $user_data = $request->validate([
+            "name" => ['required', 'min:4'],
+            "password" => ['required', 'min:4'],
+            "email" => ['required', 'email'] 
+        ]);
+
+        $user = User::create($user_data);
+        $token = $user->createToken('myapptoken')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+     }
 }

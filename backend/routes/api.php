@@ -68,5 +68,9 @@ Route::prefix('blog')->group(function(){
     route::get('/show', [BlogController::class, 'showMe']);
 });
 
+Route::prefix('credential')->group(function(){
+    route::post('/register', [BlogController::class, 'register']);
+});
+
 
 
