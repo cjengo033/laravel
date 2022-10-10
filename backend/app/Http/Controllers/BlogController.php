@@ -68,7 +68,6 @@ class BlogController extends Controller
         $get = User::where('id', $request->id)->first();
 
         if ($request->old_password == $get->password) {
-
             DB::table('users')
                 ->where('id', '=', $request->id)
                 ->update($request->all());
@@ -79,5 +78,15 @@ class BlogController extends Controller
         } else {
             return "mali sila";
         }
+    }
+
+    public function showMe(Request $request)
+    {
+       $user_data =  User::where('name','like','%'.$request->name.'%')->get();
+       if($user_data){
+        return $user_data;
+       }else {
+        return "No Data has been found";
+       }
     }
 }

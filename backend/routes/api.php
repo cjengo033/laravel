@@ -59,11 +59,13 @@ Route::prefix('authentication')->group(function(){
 
 Route::prefix('blog')->group(function(){
     route::get('/', [BlogController::class, 'index']);
+    route::get('/show', [BlogController::class, 'showMe']);
     route::get('/{id}', [BlogController::class, 'show']);
     route::post('/add', [BlogController::class, 'create']);
     route::delete('/del/{id}', [BlogController::class, 'destroy']);
     route::post('/update/{id}', [BlogController::class, 'edit']);
-    
+    route::get('/show', [BlogController::class, 'showMe']);
+    route::get('/show', [BlogController::class, 'showMe']);
 });
 
 
