@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\TodoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,15 @@ Route::prefix('todo')->group(function(){
 Route::prefix('authentication')->group(function(){
     Route::get('/login', [UsersController::class, 'login']);
     Route::post('/register', [UsersController::class, 'register']);
+});
+
+Route::prefix('blog')->group(function(){
+    route::get('/', [BlogController::class, 'index']);
+    route::get('/{id}', [BlogController::class, 'show']);
+    route::post('/add', [BlogController::class, 'create']);
+    route::delete('/del/{id}', [BlogController::class, 'destroy']);
+    route::post('/update/{id}', [BlogController::class, 'edit']);
+    
 });
 
 
