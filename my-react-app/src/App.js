@@ -9,6 +9,7 @@ import Blogs from "./pages/Blogs";
 import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
 import Student from './pages/Student';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="blogs/:id" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
           <Route path="students" element={<Student />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </BrowserRouter> 

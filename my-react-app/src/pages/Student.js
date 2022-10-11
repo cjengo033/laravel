@@ -63,18 +63,8 @@ const Students = () => {
                                 
                             </tr>
                         ))}
-
-
-
-
-
-
-
                     </tbody>
                 </table>
-
-
-
             </>
 
 

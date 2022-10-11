@@ -19,7 +19,7 @@ const Contact = () => {
             <div className='form-group'>
               <label>First name</label>
               <input type="text" 
-              class="form-control" 
+              className="form-control" 
               placeholder='First name'
               aria-label="Sizing example input" 
               aria-describedby="inputGroup-sizing-lg" />
@@ -29,7 +29,7 @@ const Contact = () => {
               <label>Last name</label>
               <input type="text" 
               placeholder='Last name'
-              class="form-control" 
+              className="form-control" 
               aria-label="Sizing example input" 
               aria-describedby="inputGroup-sizing-lg" />
             </div>
@@ -38,7 +38,7 @@ const Contact = () => {
               <label>What's your email?</label>
               <input type="text" 
               placeholder='Email'
-              class="form-control" 
+              className="form-control" 
               aria-label="Sizing example input" 
               aria-describedby="inputGroup-sizing-lg" />
             </div>
