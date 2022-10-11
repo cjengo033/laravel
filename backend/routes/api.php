@@ -67,7 +67,11 @@ Route::prefix('blog')->group(function(){
     route::get('/show', [BlogController::class, 'showMe']);
     route::get('/show', [BlogController::class, 'showMe']);
 });
-route::post('/register', [BlogController::class, 'register']);
+Route::prefix('authentication')->group(function(){
+    route::post('/register', [BlogController::class, 'register']);
+    route::post('/login', [BlogController::class, 'login']);
+});
+
 
 Route::prefix('credential')->middleware('auth:sanctum')->group(function(){
     route::get('/testToken', [BlogController::class, 'testToken']);
