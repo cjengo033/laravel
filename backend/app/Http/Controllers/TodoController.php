@@ -9,27 +9,41 @@ use Illuminate\Support\Facades\DB;
 
 class TodoController extends Controller
 {
-    public function working() {
+    public function working()
+    {
         return "API is working";
     }
 
-    public function show(Request $request) {   
-    $users = DB::table('students')->get();   
+    public function show(Request $request)
+    {
+        $users = DB::table('students')->get();
         return $users;
     }
 
-    public function test($id) {
-        $data = Students::findOrFail($id);
-        return array($data);
+    public function show_data($id)
+    {
+
+        if (Students::findOrFail($id)) {
+            $user_data = Students::findOrFail($id);
+            return response()->json([
+                'Message' => 'Data has been found!',
+                'Data' => array($user_data)
+            ]);
+        } else {
+            return response()->json([
+                'Message' => 'No data has been found!'
+            ]);
+        }
     }
-    
-    public function create(Request $request){
-        $message = "Successfully added a user";
+
+    public function create(Request $request)
+    {
         $first_name = $request->first_name;
         $last_name = $request->last_name;
         $gender = $request->gender;
         $age = $request->age;
         $email = $request->email;
+        
 
         $array_user = array(
             "first_name" => $first_name,
@@ -38,44 +52,64 @@ class TodoController extends Controller
             "age" => $age,
             "email" => $email
         );
-        $user = DB::table('students')
-                ->insertGetId($array_user);
 
-        if ($user) {
-            return array($message); 
-        }
-    }
 
-    public function destroy(Request $request) {
-        $message = "Successfully Deleted the data";
-        $user = DB::table('students')
-                    ->where('id', '=', $request->id)
-                    ->delete();
-
-                    $result = DB::table('students')
-                    ->where('id', '=', $request->id)
-                    ->get();
-        if ($user) {
-            return array($result, $message);
+        if (DB::table('students')->insert($array_user)) {
+            return response()->json([
+                'Message' => "You've created new user info!",
+            ]);
         }else {
-            return false;
+            return response()->json([
+                'Message' => "Something went wrong"
+            ]);
         }
     }
 
-    public function edit(Request $request) {
-        $message = "Successfully Edited";
+    public function destroy(Request $request)
+    {
         $user = DB::table('students')
-                    ->where('id', '=', $request->id)
-                    ->update(array("first_name" => $request->name));
+            ->where('id', '=', $request->id)
+            ->delete();
 
         $result = DB::table('students')
-                        ->where('id', '=', $request->id)
-                        ->get();
+            ->where('id', '=', $request->id)
+            ->get();
+        if ($user) {
+            return response()->json([
+                'Message' => "The data has been successfully deleted"
+            ]);
+        } else {
+            return response()->json([
+                'Message' => 'The data has not been successfully deleted'
+            ]);
+        }
+    }
+
+    public function edit(Request $request)
+    {
+       
+        $user = DB::table('students')
+            ->where('id', '=', $request->id)
+            ->update(array(
+                "first_name" => $request->first_name,
+                "last_name" => $request->last_name,
+                "age" => $request->age,
+                "email" => $request->email
+            ));
+
+        $result = DB::table('students')
+            ->where('id', '=', $request->id)
+            ->get();
 
         if ($user) {
-            return array($result, $message);
-        }else {
-            return false;
+            // return array($result, $message);
+            return response()->json([
+                'message' => 'Successfully edit'
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Not Successfully edit'
+            ]);
         }
     }
 }

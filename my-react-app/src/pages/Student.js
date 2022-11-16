@@ -35,14 +35,15 @@ const Students = () => {
         return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
         return <div className="spinner-border justify-content-center" role="status">
-                 <span class="sr-only">Loading...</span>
+                 <span className="sr-only">Loading...</span>
                </div>;
     } else {
 
         return (
             <>
+                <button><a href="/add_students">Add Student</a></button>
 
-                <table class="table text-center">
+                <table className="table text-center">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -59,7 +60,7 @@ const Students = () => {
                                 <th>{item.first_name + " " + item.last_name}</th>
                                 <th>{item.age}</th>
                                 <th>{item.email}</th>
-                                <th><FontAwesomeIcon icon="fa-solid fa-trash" /><a href={`/blogs/${item.id}`} >Test</a></th>
+                                <th><a href={`/blogs/${item.id}`} >Test</a></th>
                                 
                             </tr>
                         ))}

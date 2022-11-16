@@ -1,7 +1,4 @@
-import logo from './logo.svg';
 import './App.css';
-import Header from '././component/Header';
-import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
@@ -10,6 +7,7 @@ import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
 import Student from './pages/Student';
 import Login from './pages/Login';
+import AddStudent from './pages/AddStudent';
 
 function App() {
   return (
@@ -19,9 +17,11 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="blogs/:id" element={<Blogs />} />
+          {/* <Route path="blogs/:id" render={(props) => <Blogs {...props} />}/>  */}
           <Route path="contact" element={<Contact />} />
           <Route path="students" element={<Student />} />
           <Route path="login" element={<Login />} />
+          <Route path="add_students" element={<AddStudent />} />
         </Route>
       </Routes>
     </BrowserRouter> 

@@ -45,7 +45,7 @@ Route::prefix('settings')->group(function() {
 Route::prefix('todo')->group(function(){
     Route::get('/', [TodoController::class, 'working']);
     Route::get('/show', [TodoController::class, 'show']);
-    Route::get('/{id}', [TodoController::class, 'test']);  
+    Route::get('/{id}', [TodoController::class, 'show_data']);  
     Route::post('/add', [TodoController::class, 'create']);
     Route::delete('/del/{id}', [TodoController::class, 'destroy']);
     Route::post('/update/{id}', [TodoController::class, 'edit']);

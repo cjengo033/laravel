@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-const axios = require('axios').default;
+import { useParams } from "react-router-dom";
 
 const Blogs = () => {
 
@@ -8,35 +7,68 @@ const Blogs = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState();
   const [name, setName] = useState();
+  const [last_name, setLastName] = useState();
   const [age, setAge] = useState();
   const [email, setEmail] = useState();
 
-  console.log(items);
+  const search_params = useParams();
+  const user_id = search_params.id;
 
-  const handleSubmit = () => {
-    const user = [
-      {
-        "name": name,
-        "age" : age,
-        "email": email
-      }
-    ] 
+  
 
-    console.log(user);
+  const handleSubmit = (e) => {
+  console.log(name);
+    
+
+    // const user_data = 
+    //   {
+    //     "first_name": name,
+    //     "last_name" : last_name, 
+    //     "age": age,
+    //     "email": email
+    //   }
+    // if(user_data) {
+    
+    //   console.log(user_data);
+    // }
+    
+    // // POST request using fetch with error handling
+    // const element = document.querySelector('#post-request-error-handling .article-id');
+    // const requestOptions = {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(user_data)
+    // };
+    // fetch(`http://127.0.0.1:8000/api/todo/update/${user_id}`, requestOptions)
+    //   .then(async response => {
+    //     const isJson = response.headers.get('content-type')?.includes('application/json');
+    //     const data = isJson && await response.json();
+
+    //     // check for error response
+    //     if (!response.ok) {
+    //       // get error message from body or default to response status
+    //       const error = (data && data.message) || response.status;
+    //       return Promise.reject(error);
+    //     }
+
+    //     element.innerHTML = data.id;
+    //   })
+    //   .catch(error => {
+    //     // element.parentElement.innerHTML = `Error: ${error}`;
+    //     console.error('There was an error!', error);
+    //   });
   }
-
-
 
   // Note: the empty deps array [] means
   // this useEffect will run once
   // similar to componentDidMount()
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/todo/${4}`)
+    fetch(`http://127.0.0.1:8000/api/todo/${user_id}`)
       .then(res => res.json())
       .then(
         (result) => {
           setIsLoaded(true);
-          setItems(result);
+          setItems(result.Data);
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -53,90 +85,72 @@ const Blogs = () => {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
     return <div className="spinner-border justify-content-center" role="status">
-      <span class="sr-only">Loading...</span>
+      <span className="sr-only">Loading...</span>
     </div>;
   } else {
 
     return (
       <>
+        {items.map(item => (
+          <div className="shadow-sm p-5 m-10 bg-white rounded" key={item.id}>
+            <form onSubmit={handleSubmit()}>
 
-        <table class="table text-center">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th scope="col">Full Name</th>
-              <th scope="col">Age</th>
-              <th scope="col">Email</th>
-              <th scope="col">View</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map(item => (
-              <tr key={item.id}>
-                <th>{item.id}</th>
-                <th>{item.first_name + " " + item.last_name}</th>
-                <th>{item.age}</th>
-                <th>{item.email}</th>
-                <th><FontAwesomeIcon icon="fa-solid fa-trash" />
-                  <div>
-                    <a href={`/blogs/${item.id}`} className="btn btn-warning">Update</a> &nbsp;
-                    <a href={`/blogs/${item.id}`} className="btn btn-danger">Delete</a>
-                  </div>
+              <div className="form-group">
+                <label>First name</label>
+                <input type="text"
+                  onChange={e => setName(e.target.value)}
+                  value={item.first_name}
+                  className="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email" />
+                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
 
-                </th>
-
-              </tr>
-            ))}
-
-          </tbody>
-        </table>
-
-        <div className="shadow-sm p-5 m-10 bg-white rounded">
-          <form onSubmit={handleSubmit()}>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Full name</label>
-              <input type="email"
-                value={setName}
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Enter email" />
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
+              <div className="form-group">
+                <label>Last name</label>
+                <input type="text"
+                  onChange={e => setLastName(e.target.value)}
+                  defaultValue={item.first_name}
+                  className="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email" />
+                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
 
 
-            <div class="form-group">
-              <label for="exampleInputEmail1">Age</label>
-              <input type="email"
-                value={setAge}
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Enter email" />
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
+              <div className="form-group">
+                <label>Age</label>
+                <input type="number"
+                  onChange={e => setAge(e.target.value)}
+                  defaultValue={item.age}
+                  className="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email" />
+                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
 
-            <div class="form-group">
-              <label >Email address</label>
-              <input type="email"
-                
-                onChange={setEmail}
-                class="form-control"
-                id="exampleInputEmail1"
-                placeholder="Enter email" />
-            </div>
+              <div className="form-group">
+                <label >Email address</label>
+                <input type="email"
+                  onChange={e => setEmail(e.target.value)}
+                  defaultValue={item.email}
+                  className="form-control"
+                  id="exampleInputEmail1"
+                  placeholder="Enter email" />
+              </div>
 
-            <button className="btn btn-primary">Submit Contact</button>
-          </form>
-        </div>
-
+              <button className="btn btn-primary">Submit Contact</button>
+            </form>
+          </div>
+        ))}
       </>
-
 
     );
   }
 
-
 }
-// http://127.0.0.1:8000/api/todo/
+
 export default Blogs;
