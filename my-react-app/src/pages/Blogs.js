@@ -1,67 +1,49 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useForm } from "react";
 import { useParams } from "react-router-dom";
 
 const Blogs = () => {
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState();
-  const [name, setName] = useState();
-  const [last_name, setLastName] = useState();
-  const [age, setAge] = useState();
-  const [email, setEmail] = useState();
+  // const [items, setItems] = useState();
 
+  const [numbers, setItems] = useState();
+
+  const [first_name, setFirstName] = useState();
+  const [last_name, setLastName] = useState();
+  const [gender, setGender] = useState();
+  const [age, setAge] = useState()
+  const [email, setEmail] = useState();
   const search_params = useParams();
   const user_id = search_params.id;
 
-  
 
-  const handleSubmit = (e) => {
-  console.log(name);
-    
+  console.log(first_name);
 
-    // const user_data = 
-    //   {
-    //     "first_name": name,
-    //     "last_name" : last_name, 
-    //     "age": age,
-    //     "email": email
-    //   }
-    // if(user_data) {
-    
-    //   console.log(user_data);
-    // }
-    
-    // // POST request using fetch with error handling
-    // const element = document.querySelector('#post-request-error-handling .article-id');
-    // const requestOptions = {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(user_data)
-    // };
-    // fetch(`http://127.0.0.1:8000/api/todo/update/${user_id}`, requestOptions)
-    //   .then(async response => {
-    //     const isJson = response.headers.get('content-type')?.includes('application/json');
-    //     const data = isJson && await response.json();
 
-    //     // check for error response
-    //     if (!response.ok) {
-    //       // get error message from body or default to response status
-    //       const error = (data && data.message) || response.status;
-    //       return Promise.reject(error);
-    //     }
+  const submit_edit = (e) => {
+    alert("working");
+    fetch(`http://127.0.0.1:8000/api/todo/update/${user_id}`, {
 
-    //     element.innerHTML = data.id;
-    //   })
-    //   .catch(error => {
-    //     // element.parentElement.innerHTML = `Error: ${error}`;
-    //     console.error('There was an error!', error);
-    //   });
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        first_name: first_name,
+        last_name: last_name,
+        gender: gender,
+        age: age,
+        email: email
+      })
+
+    })
+
+    e.preventDefault();
+
   }
 
-  // Note: the empty deps array [] means
-  // this useEffect will run once
-  // similar to componentDidMount()
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/todo/${user_id}`)
       .then(res => res.json())
@@ -91,15 +73,15 @@ const Blogs = () => {
 
     return (
       <>
-        {items.map(item => (
+        {numbers.map(item => (
           <div className="shadow-sm p-5 m-10 bg-white rounded" key={item.id}>
-            <form onSubmit={handleSubmit()}>
+            <form onSubmit={submit_edit}>
 
               <div className="form-group">
                 <label>First name</label>
                 <input type="text"
-                  onChange={e => setName(e.target.value)}
-                  value={item.first_name}
+                  onChange={e => setFirstName(e.target.value) ? setFirstName(e.target.value) : item.first_name }
+                  defaultValue={item.first_name}
                   className="form-control"
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
@@ -111,7 +93,7 @@ const Blogs = () => {
                 <label>Last name</label>
                 <input type="text"
                   onChange={e => setLastName(e.target.value)}
-                  defaultValue={item.first_name}
+                  defaultValue={item.last_name}
                   className="form-control"
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
@@ -119,6 +101,17 @@ const Blogs = () => {
                 <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
               </div>
 
+              <div className="form-group">
+                <label>Gender</label>
+                <input type="text"
+                  onChange={e => setGender(e.target.value)}
+                  defaultValue={item.gender}
+                  className="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email" />
+                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
 
               <div className="form-group">
                 <label>Age</label>
@@ -144,6 +137,7 @@ const Blogs = () => {
 
               <button className="btn btn-primary">Submit Contact</button>
             </form>
+
           </div>
         ))}
       </>

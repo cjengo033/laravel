@@ -43,7 +43,7 @@ class TodoController extends Controller
         $gender = $request->gender;
         $age = $request->age;
         $email = $request->email;
-        
+
 
         $array_user = array(
             "first_name" => $first_name,
@@ -58,12 +58,72 @@ class TodoController extends Controller
             return response()->json([
                 'Message' => "You've created new user info!",
             ]);
-        }else {
+        } else {
             return response()->json([
                 'Message' => "Something went wrong"
             ]);
         }
     }
+
+    public function edit(Request $request)
+    {
+
+        $user = DB::table('students')
+            ->where('id', '=', $request->id)
+            ->update(array(
+                "first_name" => $request->first_name,
+                "last_name" => $request->last_name,
+                "gender" => $request->gender,
+                "age" => $request->age,
+                "email" => $request->email
+    
+            ));
+
+        // $result = DB::table('students')
+        //     ->where('id', '=', $request->id)
+        //     ->get();
+
+        if ($user) {
+            // return array($result, $message);
+            return response()->json([
+                'message' => 'Successfully edit'
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Not Successfully edit'
+            ]);
+        }
+    }
+
+    // public function edit(Request $request)
+    // {
+
+    //     $user = DB::table('students')
+    //         ->where('id', '=', $request->id)
+    //         ->update(array(
+    //             "first_name" => $request->first_name,
+    //             "last_name" => $request->last_name,
+    //             "gender" => $request->gender,
+    //             "age" => $request->age,
+    //             "email" => $request->email
+    
+    //         ));
+
+    //     // $result = DB::table('students')
+    //     //     ->where('id', '=', $request->id)
+    //     //     ->get();
+
+    //     if ($user) {
+    //         // return array($result, $message);
+    //         return response()->json([
+    //             'message' => 'Successfully edit'
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'message' => 'Not Successfully edit'
+    //         ]);
+    //     }
+    // }
 
     public function destroy(Request $request)
     {
@@ -85,31 +145,5 @@ class TodoController extends Controller
         }
     }
 
-    public function edit(Request $request)
-    {
-       
-        $user = DB::table('students')
-            ->where('id', '=', $request->id)
-            ->update(array(
-                "first_name" => $request->first_name,
-                "last_name" => $request->last_name,
-                "age" => $request->age,
-                "email" => $request->email
-            ));
 
-        $result = DB::table('students')
-            ->where('id', '=', $request->id)
-            ->get();
-
-        if ($user) {
-            // return array($result, $message);
-            return response()->json([
-                'message' => 'Successfully edit'
-            ]);
-        } else {
-            return response()->json([
-                'message' => 'Not Successfully edit'
-            ]);
-        }
-    }
 }

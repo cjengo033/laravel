@@ -60,7 +60,8 @@ const Students = () => {
                                 <th>{item.first_name + " " + item.last_name}</th>
                                 <th>{item.age}</th>
                                 <th>{item.email}</th>
-                                <th><a href={`/blogs/${item.id}`} >Test</a></th>
+                                <th><a href={`/blogs/${item.id}`} >Show</a></th>
+                                <th><a href={`/delete/${item.id}`} >Delete</a></th>
                                 
                             </tr>
                         ))}

@@ -8,6 +8,7 @@ import NoPage from "./pages/NoPage";
 import Student from './pages/Student';
 import Login from './pages/Login';
 import AddStudent from './pages/AddStudent';
+import Delete from './pages/Delete';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="blogs/:id" element={<Blogs />} />
+          <Route path="delete/:id" element={<Delete />} />
           {/* <Route path="blogs/:id" render={(props) => <Blogs {...props} />}/>  */}
           <Route path="contact" element={<Contact />} />
           <Route path="students" element={<Student />} />
