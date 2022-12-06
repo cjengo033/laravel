@@ -30,17 +30,17 @@ const Students = () => {
             )
     }, [])
 
-
     if (error) {
         return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
         return <div className="spinner-border justify-content-center" role="status">
-                 <span className="sr-only">Loading...</span>
-               </div>;
+            <span className="sr-only">Loading...</span>
+        </div>;
     } else {
 
         return (
             <>
+            
                 <button><a href="/add_students">Add Student</a></button>
 
                 <table className="table text-center">
@@ -50,7 +50,7 @@ const Students = () => {
                             <th scope="col">Full Name</th>
                             <th scope="col">Age</th>
                             <th scope="col">Email</th>
-                            <th scope="col">View</th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,9 +60,16 @@ const Students = () => {
                                 <th>{item.first_name + " " + item.last_name}</th>
                                 <th>{item.age}</th>
                                 <th>{item.email}</th>
-                                <th><a href={`/blogs/${item.id}`} >Show</a></th>
-                                <th><a href={`/delete/${item.id}`} >Delete</a></th>
-                                
+                                <th>{item.gender}</th>
+                                <th>
+                                    <button className='btn-btn success'>
+                                        <a href={`/blogs/${item.id}`}  >View</a>
+                                    </button>
+
+                                    <button className='btn-btn danger'>
+                                        <a href={`/delete/${item.id}`} >Delete</a>
+                                    </button>
+                                </th>
                             </tr>
                         ))}
                     </tbody>

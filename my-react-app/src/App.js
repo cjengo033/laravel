@@ -9,6 +9,7 @@ import Student from './pages/Student';
 import Login from './pages/Login';
 import AddStudent from './pages/AddStudent';
 import Delete from './pages/Delete';
+import Test from './pages/Test';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="students" element={<Student />} />
           <Route path="login" element={<Login />} />
           <Route path="add_students" element={<AddStudent />} />
+          <Route path="test" element={<Test/>} />
         </Route>
       </Routes>
     </BrowserRouter> 

@@ -1,27 +1,43 @@
-import { useState, useEffect, useForm } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useForm } from 'react-hook-form'
 
 const Blogs = () => {
-
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  // const [items, setItems] = useState();
-
-  const [numbers, setItems] = useState();
-
-  const [first_name, setFirstName] = useState();
-  const [last_name, setLastName] = useState();
-  const [gender, setGender] = useState();
-  const [age, setAge] = useState()
-  const [email, setEmail] = useState();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const search_params = useParams();
   const user_id = search_params.id;
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [UserData, setItems] = useState([]);
+  const [error, setError] = useState(null);
 
+  const GenderUser = UserData.map(function (item, i) {
+    const gender = item.gender; //check the gender 
+    const GenderCondition = () => {
+      if (gender == "female") {
+        return (
+          <>
+            <option selected>{gender}</option>
+            <option value="male">male</option>
+          </>
+        )
+      } else {
+        return (
+          <>
+            <option selected>{gender}</option>
+            <option value="female">female</option>
+          </>
+        )
+      }
+    }
+    return (
+      GenderCondition()
+    )
+  })
 
-  console.log(first_name);
+  const onSubmit = (data) => {
+    const obj = { first_name: data.firstName, last_name: data.lastName, gender: data.gender, age: data.age, email: data.email };
+    const myJSON = JSON.stringify(obj);
 
-
-  const submit_edit = (e) => {
     alert("working");
     fetch(`http://127.0.0.1:8000/api/todo/update/${user_id}`, {
 
@@ -30,18 +46,8 @@ const Blogs = () => {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        first_name: first_name,
-        last_name: last_name,
-        gender: gender,
-        age: age,
-        email: email
-      })
-
+      body: myJSON
     })
-
-    e.preventDefault();
-
   }
 
   useEffect(() => {
@@ -62,7 +68,6 @@ const Blogs = () => {
       )
   }, [])
 
-
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
@@ -72,79 +77,75 @@ const Blogs = () => {
   } else {
 
     return (
-      <>
-        {numbers.map(item => (
-          <div className="shadow-sm p-5 m-10 bg-white rounded" key={item.id}>
-            <form onSubmit={submit_edit}>
-
+      <div className="shadow-lg p-3 bg-white rounded m-5">
+        {UserData.map(item => (
+          <div>
+            <h1 className='mt-5' key={item.id}>Update Data</h1>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-group">
-                <label>First name</label>
-                <input type="text"
-                  onChange={e => setFirstName(e.target.value) ? setFirstName(e.target.value) : item.first_name }
+                <label>First Name</label>
+                <input
+                  className="form-control"
+                  type="text"
                   defaultValue={item.first_name}
-                  className="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email" />
-                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                  {...register("firstName", { required: true, maxLength: 30 })}
+                />
+                {errors.firstName && errors.firstName.type === "required" && <span className="text-danger mt-1">This is required</span>}
               </div>
 
               <div className="form-group">
-                <label>Last name</label>
-                <input type="text"
-                  onChange={e => setLastName(e.target.value)}
+                <label>Last Name</label>
+                <input
+                  className="form-control"
+                  type="text"
                   defaultValue={item.last_name}
-                  className="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email" />
-                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
-              </div>
-
-              <div className="form-group">
-                <label>Gender</label>
-                <input type="text"
-                  onChange={e => setGender(e.target.value)}
-                  defaultValue={item.gender}
-                  className="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email" />
-                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                  {...register("lastName", { required: true, maxLength: 30 })}
+                />
+                {errors.lastName && errors.lastName.type === "required" && <span className="text-danger mt-1">This is required</span>}
               </div>
 
               <div className="form-group">
                 <label>Age</label>
-                <input type="number"
-                  onChange={e => setAge(e.target.value)}
-                  defaultValue={item.age}
+                <input
                   className="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email" />
-                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                  type="number"
+                  defaultValue={item.age}
+                  {...register("age", { required: true, maxLength: 30 })}
+                />
+                {errors.age && errors.age.type === "required" && <span className="text-danger mt-1">This is required</span>}
               </div>
 
               <div className="form-group">
-                <label >Email address</label>
-                <input type="email"
-                  onChange={e => setEmail(e.target.value)}
-                  defaultValue={item.email}
+
+                <label>Email</label>
+                <input
                   className="form-control"
-                  id="exampleInputEmail1"
-                  placeholder="Enter email" />
+                  defaultValue={item.email}
+                  {...register("email", { required: true, maxLength: 30 })}
+                />
+                {errors.email && errors.email.type === "required" && <span className="text-danger mt-1">This is required</span>}
               </div>
 
-              <button className="btn btn-primary">Submit Contact</button>
+              <div className="form-group">
+                <label>Gender</label>
+                <select
+                  className="custom-select"
+                  {...register("gender")}>
+                  {GenderUser}
+                </select>
+                {errors.gender && errors.gender.type === "required" && <span className="text-danger mt-1">This is required</span>}
+              </div>
+
+              <input
+                type="submit"
+                className="btn btn-primary mt-2" />
             </form>
-
           </div>
+
         ))}
-      </>
-
-    );
+      </div>
+    )
   }
-
 }
 
-export default Blogs;
+export default Blogs

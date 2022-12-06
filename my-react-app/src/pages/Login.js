@@ -10,7 +10,6 @@ const Login = () => {
         password : ''
     });
 
-
     const handleSubmit = (e) => {
         fetch('http://127.0.0.1:8000/api/authentication/login', {
             method: 'POST',

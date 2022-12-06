@@ -14,7 +14,8 @@ const Layout = () => {
                             <a className="nav-link" href="/login">Login</a>
                             <a className="nav-link" href="/contact">Contact</a>
                             <a className="nav-link" href="/students">Students Table</a>
-                            <a className="nav-link" href="/add_students">Add Student</a>
+                            {/* <a className="nav-link" href="/add_students">Add Student</a> */}
+                            <a className="nav-link" href="/test">Test</a>
                         
                         </div>
                     </div>

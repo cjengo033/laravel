@@ -79,9 +79,7 @@ class TodoController extends Controller
     
             ));
 
-        // $result = DB::table('students')
-        //     ->where('id', '=', $request->id)
-        //     ->get();
+
 
         if ($user) {
             // return array($result, $message);
