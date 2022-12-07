@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from 'react-hook-form'
+import Test from "./Test";
 
 const Blogs = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -9,6 +10,7 @@ const Blogs = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [UserData, setItems] = useState([]);
   const [error, setError] = useState(null);
+
 
   const GenderUser = UserData.map(function (item, i) {
     const gender = item.gender; //check the gender 
@@ -77,7 +79,11 @@ const Blogs = () => {
   } else {
 
     return (
+
       <div className="shadow-lg p-3 bg-white rounded m-5">
+        <div>
+          <Test data={"Carl"} />
+        </div>
         {UserData.map(item => (
           <div>
             <h1 className='mt-5' key={item.id}>Update Data</h1>
@@ -145,7 +151,10 @@ const Blogs = () => {
         ))}
       </div>
     )
+
+
   }
+
 }
 
 export default Blogs
