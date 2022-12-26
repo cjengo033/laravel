@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from 'react-hook-form'
 import Test from "./Test";
+import message from '../assets/message.png';
 
 const Blogs = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -37,6 +38,7 @@ const Blogs = () => {
   })
 
   const onSubmit = (data) => {
+
     const obj = { first_name: data.firstName, last_name: data.lastName, gender: data.gender, age: data.age, email: data.email };
     const myJSON = JSON.stringify(obj);
 
@@ -50,6 +52,26 @@ const Blogs = () => {
       },
       body: myJSON
     })
+
+    return (
+      <>
+        <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+          <div class="toast" style="position: absolute; top: 0; right: 0;">
+            <div class="toast-header">
+              <img src={message}class="rounded mr-2" alt="..."/>
+                <strong class="mr-auto">Bootstrap</strong>
+                <small>11 mins ago</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+              Hello, world! This is a toast message.
+            </div>
+          </div>
+        </div>
+      </>
+    )
   }
 
   useEffect(() => {
@@ -82,7 +104,7 @@ const Blogs = () => {
 
       <div className="shadow-lg p-3 bg-white rounded m-5">
         <div>
-          <Test data={"Carl"} />
+
         </div>
         {UserData.map(item => (
           <div>

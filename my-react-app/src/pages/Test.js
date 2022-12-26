@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import ReactDOM from 'react-dom';
 import ReactPaginate from 'react-paginate';
 import Pagination from 'react-bootstrap/Pagination';
-import { FaArrowAltCircleRight, FaArrowAltCircleLeft, FaSearchengin } from "react-icons/fa";
-const Test = ({ data }) => {
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft, FaTrash, FaSearchengin, FaPlus } from "react-icons/fa";
+const Student = ({ data }) => {
   // Example items, to simulate fetching from another resources.
   const user_data = ["Carl", 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
   const [error, setError] = useState(null);
@@ -12,9 +14,35 @@ const Test = ({ data }) => {
   const [student_data, setItems] = useState([]);
 
 
-  const result = Object.values(student_data);
 
-  console.log(result);
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [gender, setGender] = useState("");
+  const [age, setAge] = useState("");
+  const [email, setEmail] = useState("");
+  const [id_user, setId] = useState("");
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const inputRef = useRef(0 | null);
+
+  useEffect(() => {
+    const value = inputRef.current.value
+    console.log(value); 
+  }, []);
+
+  function handleClick() {
+    console.log(inputRef.current.value);
+  }
+
+  const result = Object.values(student_data);
+  const handleClose = () => setShow(false);
+  const onSubmit = (data) => {
+    console.log("Your id" + id_user);
+
+
+  }
+  const [show, setShow] = useState(false);
+
+
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/todo/show")
@@ -35,6 +63,26 @@ const Test = ({ data }) => {
       )
   }, [])
 
+  const doSomething = function (e) {
+    alert('it works!');
+    fetch('http://127.0.0.1:8000/api/todo/add?', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        first_name: first_name,
+        last_name: last_name,
+        gender: gender,
+        age: age,
+        email: email
+      })
+
+    })
+    e.preventDefault();
+  }
+
   function Items({ currentItems }) {
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -45,17 +93,27 @@ const Test = ({ data }) => {
     } else {
       return (
         <>
-          <div class="shadow-lg p-3 mb-5 bg-white rounded">
-            <h1>Hello</h1>
-          </div>
 
-          <button><a href="/add_students">Add Student</a></button>
-          <table class="table">
+          {/* <Modal show={show} onHide={handleClose} >
+            <form onSubmit={onDelete}>
+              <div>
+
+                <label>Your ID</label>
+                <input type="text" defaultValue={1} />
+              </div>
+              <button>Delete</button>
+            </form>
+
+          </Modal> */}
+
+
+
+
+          <table className="table text-center">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
+                <th scope="col">Number</th>
+                <th scope="col">Full Name</th>
                 <th scope="col">Gender</th>
                 <th scope="col">Email</th>
                 <th scope="col">Actions</th>
@@ -63,34 +121,38 @@ const Test = ({ data }) => {
             </thead>
 
 
-            {currentItems.map((item, index) => (
-
+            {currentItems.map(item => (
               <tbody>
-                <tr>
-                  <th scope="row">{item.id}</th>
-                  <td>{item.first_name}</td>
-                  <td>{item.last_name}</td>
+                <tr className='text-capitalize'>
+
+              
+                  <td>{item.first_name} {item.last_name}</td>
                   <td>{item.gender}</td>
                   <td>{item.email}</td>
                   <td>
-                    <button className='btn-btn success'>
-                      <a href={`/blogs/${item.id}`}  >View</a>
-                    </button>
-
-                    <button className='btn-btn danger'>
-                      <a href={`/delete/${item.id}`} >Delete</a>
-                    </button>
+                 
+                      <input
+                        defaultValue={item.id}
+                        ref={inputRef}
+                        type="text"
+                        id="message"
+                        name="message"
+                      />
+                      <button onClick={handleClick}>Log message</button>
+                    
+                  </td>
+                  <td>
+                    <div className=''>
+                      <a href={`/blogs/${item.id}`}  ><FaSearchengin /></a>
+                      <a className='link-light' href={`/delete/${item.id}`} ><FaTrash /></a>
+                    </div>
                   </td>
 
                 </tr>
-
               </tbody>
-
-
 
             ))}
           </table>
-
 
         </>
       );
@@ -114,27 +176,36 @@ const Test = ({ data }) => {
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {
       const newOffset = (event.selected * itemsPerPage) % student_data.length;
-      console.log(
-        `User requested page number ${event.selected}, which is offset ${newOffset}`
-      );
+      // console.log(
+      //     `User requested page number ${event.selected}, which is offset ${newOffset}`
+      // );
       setItemOffset(newOffset);
     };
 
     return (
       <>
-        <Items currentItems={currentItems} />
-        <Pagination>
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel={<FaArrowAltCircleRight />}
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={5}
-            pageCount={pageCount}
-            previousLabel={<FaArrowAltCircleLeft />}
-            renderOnZeroPageCount={null}
-            containerClassName={'pagination'}
-          />
-        </Pagination>
+
+        <div className="shadow-lg p-3 m-5 bg-white rounded">
+          <Items currentItems={currentItems} />
+
+          <Pagination>
+            <div style={{ color: "black" }}>
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel={<FaArrowAltCircleRight />}
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={5}
+                pageCount={pageCount}
+                previousLabel={<FaArrowAltCircleLeft />}
+                renderOnZeroPageCount={null}
+                containerClassName={'pagination'}
+              />
+            </div>
+          </Pagination>
+
+
+        </div>
+
 
       </>
     );
@@ -147,4 +218,4 @@ const Test = ({ data }) => {
   )
 }
 
-export default Test
+export default Student

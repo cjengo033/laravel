@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 const Delete = () => {
 const search_params = useParams();
 const user_id = search_params.id;
-const url = "/students";
+const url = "/test";
 console.log(user_id)
 
 fetch(`http://127.0.0.1:8000/api/todo/del/${user_id}`, { method: 'DELETE' })
